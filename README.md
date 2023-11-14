@@ -12,3 +12,7 @@ Promote user interaction through reviews and ratings.
 Create a DBMS for storing, accessing, and manipulating property listings, user profiles, booking records, availability data, and reviews. 	
 Motivations:
 The project will address the expensive housing dilemma that travelers face while on their journeys. PropertyPal will be a platform that enables the community to provide a variety of rentals which would be cheaper than the other housing alternatives (such as hotels). PropertyPal will give back to the community by enabling more rental businesses, as well as tourism to their cities. 
+
+Related Work: 
+--
+Our website will be similar to Zillow or Airbnb. Zillow allows you to purchase, sell, and rent properties, whereas our company will only allow you to rent. Following, PropertyPal will differ from Airbnb in that we won’t include experiences (in-person or online) as we would solely like to focus on renting properties. The major difference between PropertyPal and the rest of the online property rental websites is that our company will focus solely on rental properties and our user-interface will be more intuitive with less prompts and more efficiency than the competitors. 
