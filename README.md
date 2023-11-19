@@ -17,6 +17,17 @@ Make sure you have the following installed on your machine:
 git clone https://github.com/your-username/your-project.git](https://github.com/michaelm6453/PropertyPal.git
 cd PropertyPal
 
+### To run the project
+Go to the main folder and run the express server
+cd PropertyPal
+npm start
+
+then, in another terminal tab, go to react app and start it
+
+cd PropertyPal/property-app
+npm start
+
+
 Problem your project will address:
 --
 PropertyPal is a web-based platform designed to streamline property rentals. It enables property owners to list their spaces and manage bookings while offering travelers a user-friendly interface to search, book, and review rental properties. PropertyPal will simplify the rental process by solely focusing on rental properties and not allowing extra amenities. The property rental industry is often characterized by inefficiencies, lack of centralized platforms, and user experiences that can be enhanced. Property owners often struggle to reach a wider audience, and travelers face difficulties in finding and booking suitable accommodations. This project aims to address these issues by creating a user-friendly and efficient property rental platform called PropertyPal.
