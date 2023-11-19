@@ -14,18 +14,18 @@ Make sure you have the following installed on your machine:
 
 ### Clone the Repository
 
-git clone https://github.com/your-username/your-project.git](https://github.com/michaelm6453/PropertyPal.git
-cd PropertyPal
+  git clone https://github.com/your-username/your-project.git](https://github.com/michaelm6453/PropertyPal.git
+  cd PropertyPal
 
 ### To run the project
 Go to the main folder and run the express server
-cd PropertyPal
-npm start
+  cd PropertyPal
+  npm start
 
 then, in another terminal tab, go to react app and start it
 
-cd PropertyPal/property-app
-npm start
+  cd PropertyPal/property-app
+  npm start
 
 
 Problem your project will address:
