@@ -1,19 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Property from './components/Property';
 
 const App = () => {
-  const propertyData = [
-    { title: 'Cozy Apartment', description: 'A lovely place with a view.', price: '$100/night' },
-    { title: 'Modern Studio', description: 'Perfect for solo travelers.', price: '$80/night' },
-    { title: 'Spacious Villa', description: 'Ideal for family vacations.', price: '$200/night' },
-  ];
+  const [properties, setProperties] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/properties')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data); // Add this line to log the data
+        setProperties(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching properties:', error);
+      });
+  }, []);
 
   return (
     <div>
       <h1>Welcome to PropertyPal</h1>
       <div className="property-list">
-        {propertyData.map((property, index) => (
-          <Property key={index} {...property} />
+        {properties.map((property, index) => (
+          <Property
+            key={index}
+            PropertyID={property.PropertyID}
+            Title={property.Title}
+            Description={property.Description}
+            OwnerID={property.OwnerID}
+            Price={property.Price}
+            Location={property.Location}
+            AvailabilityStartDate={property.AvailabilityStartDate}
+            AvailabilityEndDate={property.AvailabilityEndDate}
+            Images={property.Images}
+          />
         ))}
       </div>
     </div>

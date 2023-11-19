@@ -1,11 +1,24 @@
+// Property.js
 import React from 'react';
 
-const Property = ({ title, description, price }) => {
+const Property = ({
+  PropertyID,
+  Title,
+  Description,
+  OwnerID,
+  Price,
+  Location,
+  AvailabilityStartDate,
+  AvailabilityEndDate,
+  Images,
+}) => {
   return (
     <div className="property">
-      <h2>{title}</h2>
-      <p>{description}</p>
-      <p>Price: {price}</p>
+      <h2>{Title}</h2>
+      <p>{Description}</p>
+      <p>Price: {Price}</p>
+      {/* Add other elements using the corresponding props */}
+      {Images && <img src={Images} alt={`Property`} />}
     </div>
   );
 };
