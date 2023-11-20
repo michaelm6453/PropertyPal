@@ -1,4 +1,55 @@
-# PropertyPal
+# PropertyPal Project
+
+PropertyPal is a project that combines Express.js for the backend, React.js for the frontend, and MySQL for the database.
+
+## Installation
+
+### Prerequisites
+
+Make sure you have the following installed on your machine:
+
+- Node.js (https://nodejs.org/)
+- npm (comes with Node.js)
+- MySQL Database
+
+### Clone the Repository
+```
+git clone https://github.com/your-username/your-project.git](https://github.com/michaelm6453/PropertyPal.git
+cd PropertyPal
+```
+## Installing Back-End dependencies
+
+```
+cd PropertyPal
+npm install
+npm install express mysql2 cors
+//configure server.js to match your database requirements such as
+//username, password, hostname, database name
+npm run migrate
+
+
+```
+
+## Installing Front-End dependencies
+
+```
+cd PropertyPal/property-app
+npm install
+
+```
+### To run the project
+
+Go to the main folder and run the express server
+```
+cd PropertyPal
+npm start
+```
+then, in another terminal tab, go to react app and start it
+```
+cd PropertyPal/property-app
+npm start
+```
+
 Problem your project will address:
 --
 PropertyPal is a web-based platform designed to streamline property rentals. It enables property owners to list their spaces and manage bookings while offering travelers a user-friendly interface to search, book, and review rental properties. PropertyPal will simplify the rental process by solely focusing on rental properties and not allowing extra amenities. The property rental industry is often characterized by inefficiencies, lack of centralized platforms, and user experiences that can be enhanced. Property owners often struggle to reach a wider audience, and travelers face difficulties in finding and booking suitable accommodations. This project aims to address these issues by creating a user-friendly and efficient property rental platform called PropertyPal.
