@@ -1,5 +1,6 @@
 // Property.js
 import React from 'react';
+import "./Property.css";
 
 const Property = ({
   PropertyID,
@@ -16,7 +17,7 @@ const Property = ({
     <div className="property">
       <h2>{Title}</h2>
       <p>{Description}</p>
-      <p>Price: {Price}</p>
+      <p className="price">Price: {Price}</p>
       {/* Add other elements using the corresponding props */}
       {Images && <img src={Images} alt={`Property`} />}
     </div>

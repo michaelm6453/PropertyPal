@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Property from './components/Property';
+import Navbar from './components/Navbar';
 
 const App = () => {
   const [properties, setProperties] = useState([]);
@@ -18,6 +19,7 @@ const App = () => {
 
   return (
     <div>
+      <Navbar />
       <h1>Welcome to PropertyPal</h1>
       <div className="property-list">
         {properties.map((property, index) => (
