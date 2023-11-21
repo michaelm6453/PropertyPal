@@ -14,7 +14,7 @@ Make sure you have the following installed on your machine:
 
 ### Clone the Repository
 ```
-git clone https://github.com/your-username/your-project.git](https://github.com/michaelm6453/PropertyPal.git
+git clone https://github.com/michaelm6453/PropertyPal.git
 cd PropertyPal
 ```
 ## Installing Back-End dependencies
