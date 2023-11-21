@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Property from './components/Property';
 import Navbar from './components/Navbar';
 import SearchBar from './components/SearchBar';
-import PropertyListings from './components/PropertyListings';
 import BestPropertiesComponent from './components/BestProperties';
 
 
@@ -26,18 +25,19 @@ const App = () => {
     setSearchQuery(query);
   };
 
+  const filteredProperties = properties.filter((property) =>
+    property.Title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div>
       <Navbar />
-      <BestPropertiesComponent />
       <h1>Welcome to PropertyPal</h1>
       <SearchBar onSearch={handleSearch} />
-      <PropertyListings searchQuery={searchQuery} />
       <div className="property-list">
-        {properties.map((property, index) => (
+        {filteredProperties.map((property) => (
           <Property
-            key={index}
+            key={property.PropertyID}
             PropertyID={property.PropertyID}
             Title={property.Title}
             Description={property.Description}
