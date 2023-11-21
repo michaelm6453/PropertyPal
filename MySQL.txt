@@ -1,0 +1,201 @@
+use propertypal
+
+#Part a
+
+CREATE TABLE Users (
+    UserID INT AUTO_INCREMENT PRIMARY KEY,
+    Username VARCHAR(50) NOT NULL,
+    Password VARCHAR(255) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    UserType ENUM('Owner', 'Traveler') NOT NULL
+);
+
+CREATE TABLE Properties (
+    PropertyID INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(100) NOT NULL,
+    Description TEXT,
+    OwnerID INT NOT NULL,
+    Price DECIMAL(10, 2) NOT NULL,
+    Location VARCHAR(100),
+    AvailabilityStartDate DATE,
+    AvailabilityEndDate DATE,
+    Images VARCHAR(255), -- You can store image links here
+    FOREIGN KEY (OwnerID) REFERENCES Users(UserID)
+);
+
+#Returns best rated and cheapest places
+CREATE VIEW BestProperties AS
+SELECT p.PropertyID, p.OwnerID, r.rating
+FROM Properties p JOIN Reviews r ON p.propertyID=r.PropertyID
+WHERE r.rating > (SELECT AVG(rating) FROM Reviews)
+INTERSECT
+SELECT p.PropertyID, p.OwnerID, r.rating
+FROM Properties p JOIN Reviews r ON p.propertyID=r.PropertyID
+WHERE p.price < (SELECT AVG(price) FROM Properties); 
+
+CREATE TABLE Bookings (
+    BookingID INT AUTO_INCREMENT PRIMARY KEY,
+    PropertyID INT NOT NULL,
+    TravelerID INT NOT NULL,
+    CheckInDate DATE NOT NULL,
+    CheckOutDate DATE NOT NULL,
+    TotalAmount DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (PropertyID) REFERENCES Properties(PropertyID),
+    FOREIGN KEY (TravelerID) REFERENCES Users(UserID)
+);
+
+
+CREATE TABLE Reviews (
+    ReviewID INT AUTO_INCREMENT PRIMARY KEY,
+    PropertyID INT NOT NULL,
+    TravelerID INT NOT NULL,
+    Rating INT NOT NULL,
+    Comment TEXT,
+    FOREIGN KEY (PropertyID) REFERENCES Properties(PropertyID),
+    FOREIGN KEY (TravelerID) REFERENCES Users(UserID)
+);
+
+CREATE TABLE Transactions (
+    TransactionID INT AUTO_INCREMENT PRIMARY KEY,
+    BookingID INT NOT NULL,
+    Amount DECIMAL(10, 2) NOT NULL,
+    TransactionDate DATETIME NOT NULL,
+    FOREIGN KEY (BookingID) REFERENCES Bookings(BookingID)
+);
+
+CREATE TABLE Favorites (
+    FavoriteID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    PropertyID INT NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (PropertyID) REFERENCES Properties(PropertyID)
+);
+
+#Part B 
+
+INSERT INTO Users (Username, Password, Email, FirstName, LastName, UserType)
+VALUES
+    ('owner1', 'password1', 'owner1@example.com', 'John', 'Doe', 'Owner'),
+    ('owner2', 'password2', 'owner2@example.com', 'Jane', 'Smith', 'Owner'),
+    ('traveler1', 'password1', 'traveler1@example.com', 'Alice', 'Johnson', 'Traveler'),
+    ('traveler2', 'password2', 'traveler2@example.com', 'Bob', 'Wilson', 'Traveler'),
+    ('user3', 'password3', 'user3@example.com', 'Chris', 'Brown', 'Owner'),
+    ('user4', 'password4', 'user4@example.com', 'David', 'Lee', 'Traveler');
+
+
+-- Sample data for Properties
+INSERT INTO Properties (Title, Description, OwnerID, Price, Location, AvailabilityStartDate, AvailabilityEndDate, Images)
+VALUES
+    ('Cozy Cabin', 'A beautiful cabin in the woods.', 1, 150.00, 'Forest Retreat', '2023-11-01', '2023-11-15', 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/274524975.jpg?k=2d9c8225064ab727e611078da8c6fcce7b0473efafab45261dfaa27ac89e04be&o=&hp=1'),
+    ('Beach House', 'A stunning beachfront property.', 2, 250.00, 'Sandy Beach', '2023-11-10', '2023-11-25', 'https://hips.hearstapps.com/hmg-prod/images/cayman-islands-villa-kempa-kai-2020-021-1616076929.jpg'),
+    ('City Apartment', 'A modern apartment in the heart of the city.', 3, 120.00, 'Downtown', '2023-11-05', '2023-11-20', 'https://chnapartments.com/assets/images/cache/kitchen-and-living-room-a4be940df9ffd81de9014c7fc0f53336.jpg'),
+    ('Mountain Lodge', 'A cozy lodge in the mountains.', 4, 180.00, 'Mountain View', '2023-11-15', '2023-11-30', 'https://cabinsathickoryridge.com/media/The-Lodge-Spring.jpg'),
+    ('Lake Cottage', 'A charming cottage by the lake.', 5, 140.00, 'Lakeside Retreat', '2023-11-02', '2023-11-17', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/e5/cd/64/cottage-4.jpg?w=700&h=-1&s=1'),
+    ('Ski Chalet', 'A ski chalet for winter enthusiasts.', 6, 200.00, 'Ski Resort', '2023-11-08', '2023-11-23', 'https://gallery.streamlinevrs.com/units-gallery/00/06/CB/image_157717014.jpeg');
+-- Sample data for Bookings
+INSERT INTO Bookings (PropertyID, TravelerID, CheckInDate, CheckOutDate, TotalAmount)
+VALUES
+    (1, 3, '2023-11-05', '2023-11-10', 300.00),
+    (2, 4, '2023-11-12', '2023-11-17', 500.00),
+    (3, 4, '2023-11-15', '2023-11-20', 240.00),
+    (4, 3, '2023-11-20', '2023-11-25', 360.00),
+    (5, 2, '2023-11-10', '2023-11-15', 280.00),
+    (6, 1, '2023-11-25', '2023-11-30', 400.00);
+
+-- Sample data for Reviews
+INSERT INTO Reviews (PropertyID, TravelerID, Rating, Comment)
+VALUES
+    (1, 3, 5, 'Amazing cabin!'),
+    (2, 4, 4, 'Great beach house experience.'),
+    (3, 4, 4, 'Nice apartment in the city.'),
+    (4, 3, 5, 'Cozy mountain lodge.'),
+    (5, 2, 5, 'Charming lake cottage.'),
+    (6, 1, 4, 'Enjoyed the ski chalet.');
+
+-- Sample data for Transactions
+INSERT INTO Transactions (BookingID, Amount, TransactionDate)
+VALUES
+    (1, 300.00, '2023-11-10 10:00:00'),
+    (2, 500.00, '2023-11-17 11:30:00'),
+    (3, 240.00, '2023-11-20 09:15:00'),
+    (4, 360.00, '2023-11-25 15:45:00'),
+    (5, 280.00, '2023-11-15 14:20:00'),
+    (6, 400.00, '2023-11-30 17:10:00');
+
+
+-- Sample data for Favorites
+INSERT INTO Favorites (UserID, PropertyID)
+VALUES
+    (1, 2),
+    (2, 1),
+    (3, 4),
+    (4, 6),
+    (5, 3),
+    (6, 5);
+
+#Part c
+CREATE VIEW PropertyOwnerReviewsInfo AS
+SELECT p.PropertyID, p.Title, p.Description, p.Price, p.Location, u.FirstName AS OwnerFirstName, 
+u.LastName AS OwnerLastName, r.Rating, r.Comment
+FROM Properties p INNER JOIN Users u ON p.OwnerID = u.UserID
+LEFT JOIN Reviews r ON p.PropertyID = r.PropertyID;
+
+
+CREATE VIEW AveragePropertyRatings AS
+SELECT p.PropertyID, p.Title, AVG(r.AverageRating) AS AverageRating
+FROM Properties p
+LEFT JOIN (
+    SELECT PropertyID, AVG(Rating) AS AverageRating
+    FROM Reviews
+    GROUP BY PropertyID
+) AS r ON p.PropertyID = r.PropertyID
+GROUP BY p.PropertyID, p.Title;
+
+CREATE VIEW PropertyBookingIncome AS
+SELECT p.PropertyID, p.Title, 
+       (SELECT COUNT(b.BookingID) FROM Bookings b WHERE b.PropertyID = p.PropertyID) AS TotalBookings,
+       (SELECT SUM(b.TotalAmount) FROM Bookings b WHERE b.PropertyID = p.PropertyID) AS TotalIncome
+FROM Properties p;
+
+CREATE VIEW PropertyBookingDetails AS
+SELECT p.PropertyID, p.Title, b.BookingID, b.CheckInDate, b.CheckOutDate
+FROM Properties p
+LEFT JOIN Bookings b ON p.PropertyID = b.PropertyID
+UNION
+SELECT p.PropertyID, p.Title, b.BookingID, b.CheckInDate, b.CheckOutDate
+FROM Properties p
+RIGHT JOIN Bookings b ON p.PropertyID = b.PropertyID;
+
+CREATE VIEW UserFavoriteProperties AS
+SELECT u.UserID, u.Username, f.PropertyID
+FROM Users u
+LEFT JOIN Favorites f ON u.UserID = f.UserID;
+
+CREATE VIEW CheapListings AS 
+SELECT p.Title, p.location, p.PropertyID
+FROM Properties p
+WHERE Price < 150;
+
+CREATE VIEW PropertyBookingOwnerInfo AS
+SELECT b.BookingID, p.PropertyID, p.Title AS PropertyTitle, u.FirstName AS OwnerFirstName,
+ u.LastName AS OwnerLastName, u.Username AS OwnerUsername, b.CheckInDate, b.CheckOutDate
+FROM Bookings b
+JOIN Properties p ON b.PropertyID = p.PropertyID
+JOIN Users u ON p.OwnerID = u.UserID;
+
+CREATE VIEW HighRatedProperties AS
+SELECT p.PropertyID, p.Title, AVG(r.Rating) AS AverageRating
+FROM Properties p
+LEFT JOIN Reviews r ON p.PropertyID = r.PropertyID
+GROUP BY p.PropertyID, p.Title
+HAVING AVG(r.Rating) >= 4.5;
+
+CREATE VIEW PropertiesBookedInDateRange AS
+SELECT p.PropertyID, p.Title, b.CheckInDate, b.CheckOutDate
+FROM Properties p
+LEFT JOIN Bookings b ON p.PropertyID = b.PropertyID
+WHERE (b.CheckInDate BETWEEN '2023-11-01' AND '2023-11-15')
+   OR (b.CheckOutDate BETWEEN '2023-11-01' AND '2023-11-15');
+bookings
