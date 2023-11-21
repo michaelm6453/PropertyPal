@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Property from './components/Property';
 import Navbar from './components/Navbar';
+import SearchBar from './components/SearchBar';
+import PropertyListings from './components/PropertyListings';
+import BestPropertiesComponent from './components/BestProperties';
+
 
 const App = () => {
   const [properties, setProperties] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetch('http://localhost:3001/properties')
@@ -17,10 +22,18 @@ const App = () => {
       });
   }, []);
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+
   return (
     <div>
       <Navbar />
+      <BestPropertiesComponent />
       <h1>Welcome to PropertyPal</h1>
+      <SearchBar onSearch={handleSearch} />
+      <PropertyListings searchQuery={searchQuery} />
       <div className="property-list">
         {properties.map((property, index) => (
           <Property
@@ -40,5 +53,7 @@ const App = () => {
     </div>
   );
 };
+
+
 
 export default App;
