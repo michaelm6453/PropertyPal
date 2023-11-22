@@ -35,9 +35,12 @@ const PropertyDetails = () => {
       </div>
 
       {/* Center the "Book This Property" button */}
-      <div className="flex justify-center">
+      <div className="flex justify-center space-x-4">
         <Link to={`/booking/${id}`} className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
           Book This Property
+        </Link>
+        <Link to={`/availability/${id}`} className="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">
+          Check Availability
         </Link>
       </div>
     </div>

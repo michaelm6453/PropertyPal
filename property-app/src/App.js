@@ -4,7 +4,8 @@ import Navbar from './components/Navbar';
 import BestPropertiesComponent from './components/BestProperties';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PropertyDetails from './components/PropertyDetails';
-import BookingPage from './components/BookingPage'; // Import your BookingPage component
+import BookingPage from './components/BookingPage'; 
+import AvailabilityCheck from './components/AvailabilityCheck'; 
 
 import './App.css';
 import "./index.css"
@@ -63,6 +64,7 @@ const App = () => {
         } />
         <Route path="/property/:id" element={<PropertyDetails />} />
         <Route path="/booking/:id" element={<BookingPage />} />
+        <Route path="/availability/:id" element={<AvailabilityCheck />} />
       </Routes>
     </Router>
   );

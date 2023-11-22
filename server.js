@@ -252,6 +252,22 @@ app.post('/bookings', (req, res) => {
   );
 });
 
+app.get('/bookings/:propertyId', (req, res) => {
+  const { propertyId } = req.params;
+  const query = 'SELECT * FROM Bookings WHERE PropertyID = ?';
+
+  pool.query(query, [propertyId], (error, results) => {
+    if (error) {
+      console.error('Error fetching bookings for property:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
