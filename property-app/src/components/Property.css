@@ -1,32 +1,48 @@
-.property {
-  border: 1px solid rgb(0, 0, 0);
-  border-radius: 8px;
-  padding: 15px;
-  margin: 10px;
-  width: 300px;
-  transition: transform 0.3s ease-in-out;
-}
+  .property {
+    border: 2px solid black;
+    border-radius: 12px; /* Set rounded corners to 2px */
+    padding: 15px;
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    /* Remove width and margin to allow for full responsiveness within the grid */
+  }
 
-.property:hover {
-  transform: scale(1.05);
-}
+  .property:hover {
+    transform: scale(1.05);
+  }
 
-.property img {
-  width: 100%;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
+  .property img {
+    width: 100%; /* Responsive image width */
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
 
-.property h2 {
-  color: #333;
-}
+  .property h2 {
+    color: #333;
+  }
 
-.property p {
-  color: #666;
-}
+  .property p {
+    color: #666;
+  }
 
-.property .price {
-  font-size: 1.2em;
-  font-weight: bold;
-  color: #27ae60; 
-}
+  .property .price {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #27ae60; 
+  }
+
+  @media (min-width: 640px) { /* Tailwind's sm breakpoint */
+    .property {
+      padding: 1rem; /* Adjust padding if necessary */
+      margin: 0; /* Remove margin for sm screens and up */
+    }
+  }
+
+  @media (min-width: 768px) { /* Tailwind's md breakpoint */
+    .property {
+      padding: 1rem; /* Consistent padding for md screens and up */
+      margin: 0; /* Remove margin for md screens and up */
+    }
+  }

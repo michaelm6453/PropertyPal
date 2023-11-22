@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Property from './components/Property';
 import Navbar from './components/Navbar';
 import BestPropertiesComponent from './components/BestProperties';
+import './App.css';
+import "./index.css"
+
 
 
 const App = () => {
@@ -30,9 +33,13 @@ const App = () => {
   return (
     <div>
       <Navbar onSearch={handleSearch} />
-          <h1>Welcome to PropertyPal</h1>
-      <div className="property-list">
+      <div className="flex justify-center items-center">
+      <h1 className="text-6xl text-gray-700 font-bebas">Welcome to PropertyPal</h1>
+      </div>
+    
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
         {filteredProperties.map((property) => (
+          <div className="p-6"> {/* Padding for each card */}
           <Property
             key={property.PropertyID}
             PropertyID={property.PropertyID}
@@ -44,7 +51,9 @@ const App = () => {
             AvailabilityStartDate={property.AvailabilityStartDate}
             AvailabilityEndDate={property.AvailabilityEndDate}
             Images={property.Images}
+            className="w-full"
           />
+          </div>
         ))}
       </div>
     </div>
