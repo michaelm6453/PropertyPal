@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Property from './components/Property';
 import Navbar from './components/Navbar';
-import SearchBar from './components/SearchBar';
 import BestPropertiesComponent from './components/BestProperties';
 
 
@@ -13,7 +12,6 @@ const App = () => {
     fetch('http://localhost:3001/properties')
       .then((response) => response.json())
       .then((data) => {
-        console.log(data); // Add this line to log the data
         setProperties(data);
       })
       .catch((error) => {
@@ -31,9 +29,8 @@ const App = () => {
 
   return (
     <div>
-      <Navbar />
-      <h1>Welcome to PropertyPal</h1>
-      <SearchBar onSearch={handleSearch} />
+      <Navbar onSearch={handleSearch} />
+          <h1>Welcome to PropertyPal</h1>
       <div className="property-list">
         {filteredProperties.map((property) => (
           <Property

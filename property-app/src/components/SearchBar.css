@@ -1,0 +1,25 @@
+.search-bar {
+    display: flex;
+    flex-grow: 1; /* Allows the search bar to expand */
+    margin: 0 20px;
+  }
+  
+  .search-bar input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    border-right: none;
+  }
+  
+  .search-bar button {
+    padding: 8px 16px;
+    background-color: #ff385c;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+  }
+  
+  /* Add responsiveness and other visual styles as needed */
+  
