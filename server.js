@@ -8,6 +8,7 @@ const port = 3001;
 
 // Use cors middleware
 app.use(cors());
+app.use(express.json());
 
 // Create a MySQL connection pool
 const pool = mysql.createPool({
@@ -160,7 +161,96 @@ app.get('/properties-booked-in-date-range', (req, res) => {
   });
 });
 
+app.get('/property/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'SELECT * FROM Properties WHERE PropertyID = ?';
+  
+  pool.query(query, [id], (error, results) => {
+    if (error) {
+      console.error('Error fetching property details:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      // Assuming the query will return a single property object
+      res.json(results[0] || {});
+    }
+  });
+});
 
+// Endpoint for creating a new booking
+app.post('/bookings', (req, res) => {
+  const { PropertyID, TravelerID, CheckInDate, CheckOutDate } = req.body;
+
+  if (!PropertyID || !TravelerID || !CheckInDate || !CheckOutDate) {
+    return res.status(400).json({ error: 'Missing required booking details' });
+  }
+
+  // Check if the selected dates overlap with existing bookings for the same property
+  const overlapQuery = `
+    SELECT *
+    FROM Bookings
+    WHERE PropertyID = ? 
+      AND ((CheckInDate BETWEEN ? AND ?) OR (CheckOutDate BETWEEN ? AND ?))
+  `;
+
+  pool.query(
+    overlapQuery,
+    [PropertyID, CheckInDate, CheckOutDate, CheckInDate, CheckOutDate],
+    (error, results) => {
+      if (error) {
+        console.error('Error checking booking overlap:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+      if (results.length > 0) {
+        // There is an overlapping booking, return an error
+        res.status(400).json({ error: 'Booking dates overlap with existing bookings' });
+        return;
+      }
+
+      // If there's no overlap, calculate the total amount
+      const priceQuery = `
+        SELECT Price
+        FROM Properties
+        WHERE PropertyID = ?
+      `;
+
+      pool.query(priceQuery, [PropertyID], (error, priceResults) => {
+        if (error) {
+          console.error('Error fetching property price:', error);
+          res.status(500).json({ error: 'Internal Server Error' });
+          return;
+        }
+        if (priceResults.length === 0) {
+          res.status(404).json({ error: 'Property not found' });
+          return;
+        }
+
+        const price = priceResults[0].Price;
+        const dateDifference = new Date(CheckOutDate) - new Date(CheckInDate);
+        const totalAmount = (dateDifference / (1000 * 3600 * 24)) * price;
+
+        // Insert the new booking
+        const insertQuery = `
+          INSERT INTO Bookings (PropertyID, TravelerID, CheckInDate, CheckOutDate, TotalAmount)
+          VALUES (?, ?, ?, ?, ?)
+        `;
+
+        pool.query(
+          insertQuery,
+          [PropertyID, TravelerID, CheckInDate, CheckOutDate, totalAmount],
+          (error, insertResults) => {
+            if (error) {
+              console.error('Error creating booking:', error);
+              res.status(500).json({ error: 'Internal Server Error' });
+              return;
+            }
+            res.status(201).json({ success: true, bookingID: insertResults.insertId });
+          }
+        );
+      });
+    }
+  );
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

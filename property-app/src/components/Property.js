@@ -1,5 +1,6 @@
 // Property.js
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import "./Property.css";
 
 const Property = ({
@@ -13,8 +14,14 @@ const Property = ({
   AvailabilityEndDate,
   Images,
 }) => {
+  let navigate = useNavigate(); // Initialize the useNavigate hook
+
+  const navigateToDetails = () => {
+    navigate(`/property/${PropertyID}`); // Navigate to the property details page
+  };
+
   return (
-    <div className="property"> {/* Renamed class for clarity */}
+    <div className="property" onClick={navigateToDetails}>
       <div className="property-image">
         {Images && <img src={Images} alt={Title} className="w-full" />} {/* Ensure image takes full width */}
       </div>
