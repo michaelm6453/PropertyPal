@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PropertyDetails from './components/PropertyDetails';
 import BookingPage from './components/BookingPage'; 
 import AvailabilityCheck from './components/AvailabilityCheck'; 
+import AuthModal from './components/AuthModal';
 
 import './App.css';
 import "./index.css"
@@ -13,6 +14,10 @@ import "./index.css"
 const App = () => {
   const [properties, setProperties] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState('');
+
 
   useEffect(() => {
     fetch('http://localhost:3001/properties')
@@ -33,9 +38,80 @@ const App = () => {
     property.Title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const handleLogout = () => {
+    setUser(null); // Reset user to null on logout
+    // We can perform any additional logout logic here (like clearing local storage, etc.)
+  };
+
+  const handleLogin = async (credentials) => {
+    try {
+      setError(''); // Clear any existing errors
+      // The URL should not contain the password or any sensitive information
+      const response = await fetch('http://localhost:3001/Users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        console.log('Logged in:', data);
+        setShowModal(false);
+        setUser(data.user); // Save the user data
+      } else {
+        console.error('Login failed:', data);
+        setError(data.message || 'Failed to log in'); // Set an error message
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+      setError('Network error'); // Set an error message
+    }
+  };
+
+
+  const handleRegister = async (userInfo) => {
+    try {
+      setError(''); // Clear any existing errors
+      const response = await fetch('http://localhost:3001/Users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userInfo),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        console.log('Registered:', data);
+        setShowModal(false);
+        // Optionally log the user in immediately after registration
+        setUser({ ...userInfo, userId: data.userId }); // Save the user data
+      } else {
+        console.error('Registration failed:', data);
+        setError(data.message || 'Failed to register'); // Set an error message
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+      setError('Network error'); // Set an error message
+    }
+  };
+
+
   return (
     <Router>
-      <Navbar onSearch={handleSearch} />
+      <Navbar 
+        onSearch={handleSearch} 
+        onLoginClick={() => setShowModal(true)} 
+        isLoggedIn={!!user} // Boolean value representing login status
+        onLogoutClick={handleLogout}
+      />
+      {showModal && (
+        <AuthModal
+          onClose={() => setShowModal(false)}
+          onLogin={handleLogin}
+          onRegister={handleRegister}
+        />
+      )}
       <Routes>
         <Route exact path="/" element={
           <>

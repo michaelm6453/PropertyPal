@@ -266,6 +266,51 @@ app.get('/bookings/:propertyId', (req, res) => {
   });
 });
 
+app.post('/Users', (req, res) => {
+  const { username, password, email, firstName, lastName, userType } = req.body;
+
+  // SQL query to insert a new user
+  const query = `
+    INSERT INTO Users (Username, Password, Email, FirstName, LastName, UserType) 
+    VALUES (?, ?, ?, ?, ?, ?)
+  `;
+
+  pool.query(query, [username, password, email, firstName, lastName, userType], (error, results) => {
+    if (error) {
+      console.error('Error registering new user:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      res.status(201).json({ success: true, message: 'User registered successfully', userId: results.insertId });
+    }
+  });
+});
+
+app.get('/Users', (req, res) => {
+  const { username, email, password, userType } = req.body;
+
+  // SQL query to find user
+  const query = `
+    SELECT * FROM Users   
+    WHERE Username = ? AND Email = ? AND Password = ? AND UserType = ?
+  `;
+
+  pool.query(query, [username, email, password, userType], (error, results) => {
+    if (error) {
+      console.error('Error logging in:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+
+    if (results.length > 0) {
+      // User found
+      const user = results[0];
+      res.json({ success: true, message: 'Login successful', user });
+    } else {
+      // User not found
+      res.status(401).json({ success: false, message: 'Invalid credentials' });
+    }
+  });
+});
 
 
 app.listen(port, () => {
