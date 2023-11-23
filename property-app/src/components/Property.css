@@ -33,6 +33,21 @@
     color: #27ae60; 
   }
 
+  .property .property-title {
+    color: #333;
+  }
+  
+  .property .property-description {
+    color: #666;
+  }
+  
+  .property .property-price {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #27ae60; 
+  }
+  
+
   @media (min-width: 640px) { /* Tailwind's sm breakpoint */
     .property {
       padding: 1rem; /* Adjust padding if necessary */

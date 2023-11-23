@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Property from './components/Property';
 import Navbar from './components/Navbar';
-import BestPropertiesComponent from './components/BestProperties';
+import BestPropertiesComponent from './components/BestPropertiesComponent';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PropertyDetails from './components/PropertyDetails';
 import BookingPage from './components/BookingPage'; 
 import AvailabilityCheck from './components/AvailabilityCheck'; 
 import AuthModal from './components/AuthModal';
-import BookingIncome from './components/BookingIncome';
+import BookingIncome from './components/BookingIncome'; //Adjust paths as needed.
 
 import './App.css';
 import "./index.css"

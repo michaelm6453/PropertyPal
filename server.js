@@ -346,6 +346,20 @@ app.get('/booking-income/:id', (req, res) => {
 });
 
 
+app.get('/best-properties', (req, res) => {
+  const query = 'SELECT * FROM BestProperties';
+  pool.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching best properties:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
