@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-
+import { useParams, Link, useNavigate } from 'react-router-dom';
 
 const PropertyDetails = () => {
   const [propertyDetails, setPropertyDetails] = useState(null);
-  const [propertyRating, setPropertyRating] = useState(null);
   const [reviews, setReviews] = useState([]);
   const { id } = useParams();
+  const navigate = useNavigate(); // Added for navigation to BookingIncome.js
 
   useEffect(() => {
-
     fetch(`http://localhost:3001/property/${id}`)
       .then((response) => response.json())
       .then((data) => {
@@ -19,8 +17,7 @@ const PropertyDetails = () => {
         console.error('Error fetching property details:', error);
       });
 
-
-      fetch(`http://localhost:3001/reviews/${id}`)
+    fetch(`http://localhost:3001/reviews/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setReviews(data);
@@ -28,8 +25,6 @@ const PropertyDetails = () => {
       .catch((error) => {
         console.error('Error fetching reviews and ratings:', error);
       });
-
-
   }, [id]);
 
   if (!propertyDetails) {
@@ -52,22 +47,20 @@ const PropertyDetails = () => {
 
       <div className="mt-4">
         <h3 className="text-lg font-semibold">Reviews and Ratings:</h3>
-          {reviews.length > 0 ? (
+        {reviews.length > 0 ? (
           reviews.map(review => (
-         <div key={review.ReviewID} className="border-b border-gray-300 py-2">
-          <p>Rating: {review.Rating}</p>
-          <p>Comment: {review.Comment}</p>
-          <p>Reviewer ID: {review.TravelerID}</p>
-          </div>
+            <div key={review.ReviewID} className="border-b border-gray-300 py-2">
+              <p>Rating: {review.Rating}</p>
+              <p>Comment: {review.Comment}</p>
+              <p>Reviewer ID: {review.TravelerID}</p>
+            </div>
           ))
-            ) : (
+        ) : (
           <p>No reviews or ratings yet.</p>
-          )}
-          </div>
+        )}
+      </div>
 
-
-
-      {/* Center the "Book This Property" button */}
+      {/* Center the "Book This Property" and "Check Total Income From This Property" buttons */}
       <div className="flex justify-center space-x-4">
         <Link to={`/booking/${id}`} className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
           Book This Property
@@ -75,6 +68,12 @@ const PropertyDetails = () => {
         <Link to={`/availability/${id}`} className="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">
           Check Availability
         </Link>
+        <button
+          onClick={() => navigate(`/booking-income/${id}`)}
+          className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded"
+        >
+          Check Total Income From This Property
+        </button>
       </div>
     </div>
   );

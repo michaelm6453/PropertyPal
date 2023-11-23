@@ -7,6 +7,7 @@ import PropertyDetails from './components/PropertyDetails';
 import BookingPage from './components/BookingPage'; 
 import AvailabilityCheck from './components/AvailabilityCheck'; 
 import AuthModal from './components/AuthModal';
+import BookingIncome from './components/BookingIncome';
 
 import './App.css';
 import "./index.css"
@@ -141,6 +142,7 @@ const App = () => {
         <Route path="/property/:id" element={<PropertyDetails />} />
         <Route path="/booking/:id" element={<BookingPage />} />
         <Route path="/availability/:id" element={<AvailabilityCheck />} />
+        <Route path="/booking-income/:id" element={<BookingIncome />} />
       </Routes>
     </Router>
   );

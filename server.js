@@ -326,6 +326,26 @@ app.get('/reviews/:id', (req, res) => {
   });
 });
 
+// Inside server.js
+
+app.get('/booking-income/:id', (req, res) => {
+  const { id } = req.params;
+  const query = `
+    SELECT CheckInDate, CheckOutDate, TotalAmount 
+    FROM Bookings 
+    WHERE PropertyID = ?
+  `;
+  pool.query(query, [id], (error, results) => {
+    if (error) {
+      console.error('Error fetching booking income data:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
