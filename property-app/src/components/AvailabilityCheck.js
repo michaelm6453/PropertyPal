@@ -3,13 +3,24 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 
-
 const AvailabilityCheck = () => {
   const { id } = useParams(); // This is the property ID
   const [bookingData, setBookingData] = useState([]);
+  const [propertyDetails, setPropertyDetails] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:3001/bookings/${id}`) // Assuming you have this endpoint set up
+    // Fetch property details
+    fetch(`http://localhost:3001/property/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setPropertyDetails(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching property details:', error);
+      });
+
+    // Fetch booking data
+    fetch(`http://localhost:3001/bookings/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setBookingData(data);
@@ -25,6 +36,31 @@ const AvailabilityCheck = () => {
   };
 
   return (
+    <div className="max-w-6xl mx-auto p-4">
+      {propertyDetails && (
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Property Details:</h2>
+          <table className="min-w-full mb-6 leading-normal rounded-lg overflow-hidden">
+            <tbody>
+              <tr>
+                <td className="px-5 py-5 bg-white text-sm border-b border-gray-400">
+                  Title: {propertyDetails.Title}
+                </td>
+                <td className="px-5 py-5 bg-white text-sm border-b border-gray-400">
+                  Owner ID: {propertyDetails.OwnerID}
+                </td>
+                <td className="px-5 py-5 bg-white text-sm border-b border-gray-400">
+                  Price: ${propertyDetails.Price}
+                </td>
+                <td className="px-5 py-5 bg-white text-sm border-b border-gray-400">
+                  Location: {propertyDetails.Location}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )}
+
     <div className="max-w-6xl mx-auto p-4">
     <h1 className="text-2xl font-semibold text-gray-700 mb-4">
         The property you have selected is available for all days except the following:
@@ -66,7 +102,8 @@ const AvailabilityCheck = () => {
         </tbody>
       </table>
     </div>
+
+    </div>
   );
 };
-
 export default AvailabilityCheck;
