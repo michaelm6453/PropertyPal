@@ -313,6 +313,19 @@ app.get('/Users', (req, res) => {
 });
 
 
+app.get('/reviews/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'SELECT ReviewID, PropertyID, TravelerID, Rating, Comment FROM Reviews WHERE PropertyID = ?';
+  pool.query(query, [id], (error, results) => {
+    if (error) {
+      console.error('Error fetching reviews and ratings:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+    res.json(results);
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

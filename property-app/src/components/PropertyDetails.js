@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
+
 const PropertyDetails = () => {
   const [propertyDetails, setPropertyDetails] = useState(null);
+  const [propertyRating, setPropertyRating] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
+
     fetch(`http://localhost:3001/property/${id}`)
       .then((response) => response.json())
       .then((data) => {
@@ -14,6 +18,18 @@ const PropertyDetails = () => {
       .catch((error) => {
         console.error('Error fetching property details:', error);
       });
+
+
+      fetch(`http://localhost:3001/reviews/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setReviews(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching reviews and ratings:', error);
+      });
+
+
   }, [id]);
 
   if (!propertyDetails) {
@@ -31,8 +47,25 @@ const PropertyDetails = () => {
         </div>
       </div>
       <div className="mt-4 text-gray-700 text-base leading-relaxed rounded-md border border-gray-500 p-4">
-        {propertyDetails.Description}
+        {propertyDetails.Description}      
       </div>
+
+      <div className="mt-4">
+        <h3 className="text-lg font-semibold">Reviews and Ratings:</h3>
+          {reviews.length > 0 ? (
+          reviews.map(review => (
+         <div key={review.ReviewID} className="border-b border-gray-300 py-2">
+          <p>Rating: {review.Rating}</p>
+          <p>Comment: {review.Comment}</p>
+          <p>Reviewer ID: {review.TravelerID}</p>
+          </div>
+          ))
+            ) : (
+          <p>No reviews or ratings yet.</p>
+          )}
+          </div>
+
+
 
       {/* Center the "Book This Property" button */}
       <div className="flex justify-center space-x-4">
