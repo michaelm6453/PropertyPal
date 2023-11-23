@@ -1,6 +1,7 @@
 import React from 'react';
 import './Navbar.css';
 import SearchBar from './SearchBar'; // Assuming you have this file
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ onSearch, onLoginClick, isLoggedIn, onLogoutClick }) =>  {
   console.log("Is Logged In:", isLoggedIn); 
@@ -11,6 +12,7 @@ const Navbar = ({ onSearch, onLoginClick, isLoggedIn, onLogoutClick }) =>  {
       </div>
       <SearchBar onSearch={onSearch} />
       <div className="navbar-links">
+        <Link to="/best-properties">Best Properties</Link>
         <a href="/rent">Rent</a>
         <a href="/list">List</a>
         {/* Include other links as necessary */}

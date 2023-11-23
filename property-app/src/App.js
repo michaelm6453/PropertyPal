@@ -143,6 +143,7 @@ const App = () => {
         <Route path="/booking/:id" element={<BookingPage />} />
         <Route path="/availability/:id" element={<AvailabilityCheck />} />
         <Route path="/booking-income/:id" element={<BookingIncome />} />
+        <Route path="/best-properties" element={<BestPropertiesComponent />} />
       </Routes>
     </Router>
   );
