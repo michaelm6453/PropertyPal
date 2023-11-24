@@ -71,7 +71,7 @@ const BookingPage = () => {
     })
     .catch((error) => {
       console.error('Error during booking:', error);
-      alert('An error occurred while booking. Please try again later.');
+      alert("The Booking request you've made coincides with another guests booking. Please refer to Availability Page for more details!");
     });
   };
 

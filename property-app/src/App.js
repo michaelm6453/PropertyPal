@@ -116,7 +116,7 @@ const App = () => {
       <Routes>
         <Route exact path="/" element={
           <>
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center mt-6">
               <h1 className="text-6xl text-gray-700 font-bebas">Welcome to PropertyPal</h1>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">

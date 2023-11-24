@@ -13,8 +13,7 @@ const Navbar = ({ onSearch, onLoginClick, isLoggedIn, onLogoutClick }) =>  {
       <SearchBar onSearch={onSearch} />
       <div className="navbar-links">
         <Link to="/best-properties">Best Properties</Link>
-        <a href="/rent">Rent</a>
-        <a href="/list">List</a>
+        
         {/* Include other links as necessary */}
       </div>
       <div className="navbar-user">

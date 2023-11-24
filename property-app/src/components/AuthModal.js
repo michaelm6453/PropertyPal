@@ -22,7 +22,7 @@ const AuthModal = ({ onClose, onLogin, onRegister }) => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      {/* ... rest of your component */}
+      {/* ... Space for additional components */}
       <form onSubmit={handleSubmit} className="space-y-6">
         {isLogin ? (
           <>
@@ -79,12 +79,12 @@ const AuthModal = ({ onClose, onLogin, onRegister }) => {
                 {isLogin ? 'Need an account? Register' : 'Already have an account? Login'}
               </button>
             </div>
-          </form>
-          <div className="mt-6">
+            <div className="mt-6">
             <button onClick={onClose} className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:border-gray-300 focus:ring-gray active:bg-gray-50 transition duration-150 ease-in-out">
               Close
             </button>
           </div>
+          </form>
         </div>    
   );
 };
