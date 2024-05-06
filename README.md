@@ -2,6 +2,24 @@
 
 PropertyPal is a project that combines Express.js for the backend, React.js for the frontend, and MySQL for the database.
 
+## Tech Stack :
+
+- **Backend:**
+  - Express.js
+  - MySQL
+  - Node.js
+
+- **Frontend:**
+  - React.js
+  - Tailwind CSS
+
+- **Database:**
+  - MySQL
+
+- **Dependencies:**
+  - mysql2
+  - cors
+
 ## Installation
 
 ### Prerequisites
@@ -49,6 +67,7 @@ then, in another terminal tab, go to react app and start it
 cd PropertyPal/property-app
 npm start
 ```
+
 
 Problem your project will address:
 --
