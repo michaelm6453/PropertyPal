@@ -1,8 +1,8 @@
 # PropertyPal Project
 
-PropertyPal is a project that combines Express.js for the backend, React.js for the frontend, and MySQL for the database.
+PropertyPal is a free full-stack property rental application designed to facilitate seamless rental management for small communities and apartment complexes. This innovative platform empowers users to effortlessly list, browse, and manage rental properties, enhancing the rental experience for both landlords and tenants.
 
-## Tech Stack :
+## Tech Stack:
 
 - **Backend:**
   - Express.js
@@ -19,6 +19,10 @@ PropertyPal is a project that combines Express.js for the backend, React.js for 
 - **Dependencies:**
   - mysql2
   - cors
+
+---
+
+PropertyPal combines modern web technologies to deliver a robust and user-friendly application, streamlining property rentals and bringing communities closer together.
 
 ## Installation
 
